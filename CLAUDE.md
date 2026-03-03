@@ -9,14 +9,15 @@
 ## 核心功能
 
 ### 1. 开发工作流 (dev-workflow)
-- 7步开发流程：需求理解 → 上下文调研 → 影响分析 → 实施计划 → 代码开发 → 代码审核 → 测试验证
+- 8步开发流程：历史学习检查 → 需求理解 → 上下文调研 → 影响分析 → 实施计划 → 代码开发 → 代码审核 → 测试验证 → 学习记录
 - 强制需求确认机制：需求不清晰不写代码
 - 团队模式：复杂任务自动启用多 agent 协作
 
-### 2. 学习日志系统 (.learnings/)
-- `LEARNINGS.md` - 记录学习、纠正、最佳实践
-- `ERRORS.md` - 记录错误和解决方案
-- `FEATURE_REQUESTS.md` - 记录功能请求
+### 2. 学习日志系统
+- `MEMORY.md` - 项目级跨会话记忆，存储重要约定和规范
+- `.learnings/LEARNINGS.md` - 记录学习、纠正、最佳实践
+- `.learnings/ERRORS.md` - 记录错误和解决方案
+- `.learnings/FEATURE_REQUESTS.md` - 记录功能请求
 
 ## 目录结构
 
@@ -33,7 +34,8 @@ auto-agent/
 ├── hooks/                  # 项目级钩子
 ├── skills/                 # 项目级技能
 ├── settings.json           # Claude Code 配置
-└── CLAUDE.md              # 本文件
+├── CLAUDE.md              # 本文件（项目规范）
+└── MEMORY.md              # 跨会话记忆
 ```
 
 ## 钩子系统
@@ -44,7 +46,7 @@ auto-agent/
 | UserPromptSubmit | 用户提交提示 | 检查需求 |
 | PreToolUse | 工具使用前 | 检查文件边界和工作流步骤 |
 | Stop | 会话结束 | 代码审核 + 任务续接提醒 |
-| PostToolUse (Bash) | Bash命令后 | 错误检测 |
+| PostToolUse(Bash) | Bash命令后 | 错误检测，提醒记录到 .learnings/ |
 
 ## 开发规范
 
@@ -69,6 +71,12 @@ echo "$(date +%Y-%m-%d)-功能名称" > .claude/task/.current-task
 # 查看当前工作流步骤
 cat .claude/task/$(cat .claude/task/.current-task)/.workflow-step
 
-# 记录学习
+# 记录学习到 MEMORY.md（重要约定）
+echo "- 新约定内容" >> MEMORY.md
+
+# 记录学习到 .learnings/
 echo "## [LRN-$(date +%Y%m%d)-001] category" >> .learnings/LEARNINGS.md
+
+# 记录错误
+echo "## [ERR-$(date +%Y%m%d)-001] command" >> .learnings/ERRORS.md
 ```
