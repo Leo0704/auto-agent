@@ -28,15 +28,20 @@
 
 ```
 auto-agent/
-├── .learnings/              ← 学习日志
+├── task/                   # 任务目录
+│   ├── 2026-03-03-功能名/  # 任务子目录
+│   │   ├── prd.pdf         # 需求文档
+│   │   └── .workflow-step  # 工作流状态
+│   └── .current-task       # 当前任务标识
+├── .learnings/             # 学习日志
 │   ├── LEARNINGS.md
 │   ├── ERRORS.md
 │   └── FEATURE_REQUESTS.md
-├── hooks/                   ← 钩子脚本
-├── skills/                  ← 技能文件
-├── CLAUDE.md               ← 项目规范
-├── MEMORY.md               ← 本文件（跨会话记忆）
-└── settings.json           ← 配置
+├── hooks/                  # 钩子脚本
+├── skills/                 # 技能文件
+├── CLAUDE.md               # 项目规范
+├── MEMORY.md               # 本文件
+└── settings.json           # 配置
 ```
 
 ## 与系统记忆的关系

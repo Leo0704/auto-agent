@@ -2,7 +2,7 @@
 # 会话开始时注入上下文
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-TASK_DIR="$PROJECT_ROOT/.claude/task"
+TASK_DIR="$PROJECT_ROOT/task"
 CURRENT_TASK_FILE="$TASK_DIR/.current-task"
 
 # 获取当前任务目录
@@ -60,7 +60,7 @@ if [ -n "$TASKS" ]; then
     echo ""
     echo "使用以下命令切换任务："
     echo '```bash'
-    echo "echo \"任务名\" > .claude/task/.current-task"
+    echo "echo \"任务名\" > task/.current-task"
     echo '```'
     echo ""
     echo "或创建新任务目录后切换。"
@@ -68,8 +68,8 @@ else
     echo "老板好！请创建任务目录开始开发。"
     echo ""
     echo '```bash'
-    echo "mkdir -p .claude/task/我的任务名"
-    echo "echo \"我的任务名\" > .claude/task/.current-task"
+    echo "mkdir -p task/我的任务名"
+    echo "echo \"我的任务名\" > task/.current-task"
     echo '```'
 fi
 

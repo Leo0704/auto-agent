@@ -18,7 +18,7 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT" 2>/dev/null || exit 0
 
 # === 任务续接检查 ===
-TASK_DIR="$PROJECT_ROOT/.claude/task"
+TASK_DIR="$PROJECT_ROOT/task"
 CURRENT_TASK_FILE="$TASK_DIR/.current-task"
 
 check_pending_tasks() {
@@ -54,7 +54,7 @@ check_pending_tasks() {
                         echo ""
                         echo "建议清理："
                         echo '```bash'
-                        echo "rm .claude/task/$task_name/.workflow-step"
+                        echo "rm task/$task_name/.workflow-step"
                         echo '```'
                         echo ""
                         echo "如需开始新任务，请创建新的任务目录。"
@@ -82,7 +82,7 @@ check_pending_tasks() {
             echo ""
             echo "使用以下命令切换任务："
             echo '```bash'
-            echo "echo \"任务名\" > .claude/task/.current-task"
+            echo "echo \"任务名\" > task/.current-task"
             echo '```'
             echo ""
             echo "然后使用 \`/dev-workflow\` 开始工作流。"

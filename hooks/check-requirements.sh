@@ -2,7 +2,7 @@
 # 检查当前任务目录，显示需求文档列表
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-TASK_DIR="$PROJECT_ROOT/.claude/task"
+TASK_DIR="$PROJECT_ROOT/task"
 CURRENT_TASK_FILE="$TASK_DIR/.current-task"
 
 # 获取当前任务目录

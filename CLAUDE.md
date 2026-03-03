@@ -25,8 +25,12 @@
 auto-agent/
 ├── .claude/
 │   ├── hooks/              # 钩子脚本
-│   ├── skills/             # 技能文件
-│   └── task/               # 任务目录
+│   └── skills/             # 技能文件
+├── task/                   # 任务目录
+│   ├── 2026-03-03-功能名/  # 任务子目录
+│   │   ├── prd.pdf         # 需求文档
+│   │   └── .workflow-step  # 工作流状态
+│   └── .current-task       # 当前任务标识
 ├── .learnings/             # 学习日志
 │   ├── LEARNINGS.md
 │   ├── ERRORS.md
@@ -65,11 +69,11 @@ auto-agent/
 
 ```bash
 # 创建新任务
-mkdir -p .claude/task/$(date +%Y-%m-%d)-功能名称
-echo "$(date +%Y-%m-%d)-功能名称" > .claude/task/.current-task
+mkdir -p task/$(date +%Y-%m-%d)-功能名称
+echo "$(date +%Y-%m-%d)-功能名称" > task/.current-task
 
 # 查看当前工作流步骤
-cat .claude/task/$(cat .claude/task/.current-task)/.workflow-step
+cat task/$(cat task/.current-task)/.workflow-step
 
 # 记录学习到 MEMORY.md（重要约定）
 echo "- 新约定内容" >> MEMORY.md

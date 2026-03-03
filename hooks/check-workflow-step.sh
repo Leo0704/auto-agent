@@ -15,7 +15,7 @@ fi
 
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 CONFIG_FILE="$PROJECT_ROOT/.claude/config.json"
-TASK_DIR="$PROJECT_ROOT/.claude/task"
+TASK_DIR="$PROJECT_ROOT/task"
 CURRENT_TASK_FILE="$TASK_DIR/.current-task"
 
 # 获取当前任务目录

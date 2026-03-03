@@ -128,7 +128,7 @@ Grep: "deploy" in skills    # 搜索部署相关
 ## 任务目录结构
 
 ```
-.claude/task/
+task/
 ├── 2024-01-15-用户冻结功能/    ← 任务目录（按日期+功能命名）
 │   ├── prd.pdf                ← 需求文档
 │   ├── 设计图.png
@@ -144,13 +144,13 @@ Grep: "deploy" in skills    # 搜索部署相关
 **创建新任务：**
 ```bash
 # 1. 创建任务目录
-mkdir -p .claude/task/$(date +%Y-%m-%d)-功能名称
+mkdir -p task/$(date +%Y-%m-%d)-功能名称
 
 # 2. 设置为当前任务
-echo "$(date +%Y-%m-%d)-功能名称" > .claude/task/.current-task
+echo "$(date +%Y-%m-%d)-功能名称" > task/.current-task
 
 # 3. 放入需求文档
-cp ~/Downloads/prd.pdf .claude/task/$(date +%Y-%m-%d)-功能名称/
+cp ~/Downloads/prd.pdf task/$(date +%Y-%m-%d)-功能名称/
 ```
 
 ## 工作流状态跟踪
@@ -158,10 +158,10 @@ cp ~/Downloads/prd.pdf .claude/task/$(date +%Y-%m-%d)-功能名称/
 **每进入一个新步骤，必须先更新状态文件：**
 
 ```bash
-echo "N" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step
+echo "N" > task/$(cat task/.current-task)/.workflow-step
 ```
 
-工作流完成后删除：`rm .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+工作流完成后删除：`rm task/$(cat task/.current-task)/.workflow-step`
 
 ---
 
@@ -208,7 +208,7 @@ cat .learnings/ERRORS.md
 
 ## 步骤 1: 需求理解 (最重要)
 
-> `echo "1" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+> `echo "1" > task/$(cat task/.current-task)/.workflow-step`
 
 ### 1.1 智能发现相关能力
 
@@ -486,7 +486,7 @@ mcp__zread__search_doc:
 
 ## 步骤 2: 上下文调研
 
-> `echo "2" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+> `echo "2" > task/$(cat task/.current-task)/.workflow-step`
 
 **前提：步骤 1 的模糊点已全部确认**
 
@@ -581,7 +581,7 @@ mcp__zread__search_doc:
 
 ## 步骤 3: 影响分析
 
-> `echo "3" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+> `echo "3" > task/$(cat task/.current-task)/.workflow-step`
 
 ### 3.1 分析模板
 
@@ -626,7 +626,7 @@ mcp__zread__search_doc:
 
 ## 步骤 4: 实施计划
 
-> `echo "4" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+> `echo "4" > task/$(cat task/.current-task)/.workflow-step`
 
 ### 4.1 任务拆分原则
 
@@ -684,7 +684,7 @@ mcp__zread__search_doc:
 
 ## 步骤 5: 代码开发
 
-> `echo "5" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`  ← 到这步才能写代码
+> `echo "5" > task/$(cat task/.current-task)/.workflow-step`  ← 到这步才能写代码
 
 ### 5.1 智能开发策略
 
@@ -743,7 +743,7 @@ mcp__zread__search_doc:
 
 ## 步骤 6: 代码审核
 
-> `echo "6" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+> `echo "6" > task/$(cat task/.current-task)/.workflow-step`
 
 ### 6.1 智能审核
 
@@ -785,7 +785,7 @@ mcp__zread__search_doc:
 
 ## 步骤 7: 测试验证 (重要！)
 
-> `echo "7" > .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+> `echo "7" > task/$(cat task/.current-task)/.workflow-step`
 
 **前提：步骤 6 代码审核通过**
 
@@ -796,7 +796,7 @@ mcp__zread__search_doc:
 **在任务目录下创建测试文档：**
 
 ```
-.claude/task/2024-01-15-功能名称/
+task/2024-01-15-功能名称/
 ├── test-plan.md          ← 测试计划
 ├── test-cases.md         ← 测试用例
 └── test-report.md        ← 测试报告（执行后生成）
@@ -1167,7 +1167,7 @@ npm run lint
 - **根据任务复杂度智能启用团队模式**
 - 禁止修改允许范围以外的任何文件
 - 参考其他项目代码时，只读取不修改
-- 工作流完成后清理状态文件：`rm .claude/task/$(cat .claude/task/.current-task)/.workflow-step`
+- 工作流完成后清理状态文件：`rm task/$(cat task/.current-task)/.workflow-step`
 - 如使用团队模式，完成后使用 TeamDelete 清理
 
 ---
