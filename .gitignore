@@ -2,8 +2,7 @@
 .DS_Store
 
 # Claude Code local settings
-.claude/tasks/
-.claude/teams/
+.claude/
 
 # Local configuration files
 settings.local.json
