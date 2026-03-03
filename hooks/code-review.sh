@@ -1,6 +1,7 @@
 #!/bin/bash
 # 代码审核脚本
 # 在代码修改后触发审核提醒，自动检测项目类型并执行对应的检查
+# 同时检查是否有未完成的任务，提示继续工作流
 
 if ! command -v jq &> /dev/null; then
     exit 0
@@ -13,8 +14,82 @@ if [ "$STOP_HOOK_ACTIVE" = "true" ]; then
     exit 0
 fi
 
-PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT" 2>/dev/null || exit 0
+
+# === 任务续接检查 ===
+TASK_DIR="$PROJECT_ROOT/.claude/task"
+CURRENT_TASK_FILE="$TASK_DIR/.current-task"
+
+check_pending_tasks() {
+    # 检查是否有当前任务
+    if [ -f "$CURRENT_TASK_FILE" ]; then
+        local task_name=$(cat "$CURRENT_TASK_FILE" 2>/dev/null | tr -d ' \n')
+        if [ -n "$task_name" ] && [ -d "$TASK_DIR/$task_name" ]; then
+            local step_file="$TASK_DIR/$task_name/.workflow-step"
+            if [ -f "$step_file" ]; then
+                local current_step=$(cat "$step_file" 2>/dev/null | tr -d ' \n')
+                if [ -n "$current_step" ] && [[ "$current_step" =~ ^[0-9]+$ ]]; then
+                    if [ "$current_step" -lt 7 ]; then
+                        echo ""
+                        echo "---"
+                        echo ""
+                        echo "## 📋 任务续接提醒"
+                        echo ""
+                        echo "**当前任务:** $task_name"
+                        echo "**当前步骤:** $current_step / 7"
+                        echo ""
+                        echo "工作流尚未完成，请使用 \`/dev-workflow\` 继续。"
+                        echo ""
+                        return 0
+                    else
+                        # 步骤7已完成，提示清理
+                        echo ""
+                        echo "---"
+                        echo ""
+                        echo "## ✅ 任务完成"
+                        echo ""
+                        echo "**当前任务:** $task_name"
+                        echo "**状态:** 工作流已完成（步骤 7/7）"
+                        echo ""
+                        echo "建议清理："
+                        echo '```bash'
+                        echo "rm .claude/task/$task_name/.workflow-step"
+                        echo '```'
+                        echo ""
+                        echo "如需开始新任务，请创建新的任务目录。"
+                        echo ""
+                        return 0
+                    fi
+                fi
+            fi
+        fi
+    fi
+
+    # 检查是否有其他待处理任务（没有.current-task但有任务目录）
+    if [ -d "$TASK_DIR" ]; then
+        local pending_tasks=$(find "$TASK_DIR" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | head -5)
+        if [ -n "$pending_tasks" ]; then
+            echo ""
+            echo "---"
+            echo ""
+            echo "## 📋 可用任务"
+            echo ""
+            echo "$pending_tasks" | while read -r task_dir; do
+                local task_name=$(basename "$task_dir")
+                echo "  - $task_name"
+            done
+            echo ""
+            echo "使用以下命令切换任务："
+            echo '```bash'
+            echo "echo \"任务名\" > .claude/task/.current-task"
+            echo '```'
+            echo ""
+            echo "然后使用 \`/dev-workflow\` 开始工作流。"
+            echo ""
+        fi
+    fi
+}
 
 # 检查是否有未提交的修改
 CHANGES=$(git status --porcelain 2>/dev/null)
@@ -181,4 +256,8 @@ OUTPUT="${OUTPUT}
 **需要详细审核请使用 /code-review 技能**"
 
 echo "$OUTPUT"
+
+# 检查待续接的任务
+check_pending_tasks
+
 exit 0
