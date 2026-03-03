@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(chmod +x:*)",
+      "Bash(go:*)",
+      "Bash(wc:*)",
+      "WebSearch",
+      "Bash(grep:*)"
+    ]
+  }
+}

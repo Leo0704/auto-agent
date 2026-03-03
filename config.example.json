@@ -1,0 +1,17 @@
+{
+  "// 说明": "Claude Code 工作流配置文件",
+
+  "allowedPaths": [
+    ".",
+    "../other-project"
+  ],
+
+  "forbiddenPatterns": [
+    ".env",
+    ".env.local",
+    "*.pem",
+    "*.key",
+    "credentials.json",
+    "secrets.yaml"
+  ]
+}
