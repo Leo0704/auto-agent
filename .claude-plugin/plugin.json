@@ -5,10 +5,7 @@
   "author": {
     "name": "longyi"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Leo0704/dev-workflow"
-  },
+  "repository": "https://github.com/Leo0704/dev-workflow",
   "keywords": [
     "workflow",
     "development",
